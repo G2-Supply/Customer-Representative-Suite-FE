@@ -2,13 +2,22 @@ import React from 'react';
 import './App.scss';
 
 // component imports 
-import AllNav from './components/Navigation/AllNav';
+import TopBar from './components/Navigation/TopBar'; 
+import SideNav from './components/Navigation/SideNav';
+import TopNav from './components/Navigation/TopNav';
+import AppMain from './components/AppMain/AppMain'; 
 
 function App() {
   return (
     <div className="App">
-      <AllNav />
-      <p>App.js</p>
+      <TopBar /> 
+      <div className="nav-wrapper">
+        <SideNav />
+        <div className="main-div">
+          <TopNav />
+          <AppMain />
+        </div>
+      </div>
     </div>
   );
 }

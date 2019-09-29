@@ -1,5 +1,5 @@
 .sidenav-wrapper {
-    width: 225px; 
+    width: 25%; 
     padding: 0px 20px; 
     background: #5184DF;
     display: flex; 
@@ -19,6 +19,10 @@
         margin: 2rem 0 0 0;
         color: white; 
         text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;   
+        }
 
         .link-desc {
             margin-top: .5rem; 

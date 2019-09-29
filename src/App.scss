@@ -33,6 +33,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	font-family: 'Roboto'; 
+	background: #EEEEEE; 
 }
 
 ol, ul {
@@ -68,4 +69,18 @@ input[type=search] {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+
+.App {
+	.nav-wrapper {
+		display: flex;
+		justify-content: right; 
+		width: 100%; 
+
+		.main-div {
+			width: 100%; 
+			display: flex; 
+			flex-direction: column; 
+		}
+	}
 }
