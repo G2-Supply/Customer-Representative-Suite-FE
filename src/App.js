@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 // component imports 
 import AllNav from './components/Navigation/AllNav';

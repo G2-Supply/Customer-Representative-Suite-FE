@@ -1,0 +1,30 @@
+.sidenav-wrapper {
+    width: 215px; 
+    padding: 0px 30px; 
+    background: #5184DF;
+    display: flex; 
+    flex-direction: column; 
+    height: 400vh;  
+
+    .signout {
+        text-decoration: underline; 
+        margin: 0 auto; 
+        text-align: center; 
+        color: white; 
+        margin-top: 1.5rem; 
+    }
+
+    .side-links {
+        margin: 10rem 0 0 0;
+        color: white; 
+        text-decoration: none;  
+        font-weight: bold; 
+
+        .link-desc {
+            margin-top: .3rem; 
+            font-size: .6rem;
+            font-weight: 400; 
+        }
+    }
+     
+}
