@@ -25,7 +25,7 @@ const BoxCalculator = () => {
         x9: '', 
         x10: '',  
         name: '',
-        sqft: null,
+        sqft: '',
         boxStyles: '',
     }); 
 
@@ -35,17 +35,18 @@ const BoxCalculator = () => {
     // pulling the list of possible box formulas from the API on page render, going to save it to an array
     useEffect(() => {
         axios.get('http://localhost:5000/api/box-styles/')
-            .then(res => {
-                setForm({
-                    ...form,
-                    boxStyles: res.data.data
-                }); 
-            })
-            .catch(err => {
-                console.log('err label', err); 
-            })
+        .then(res => {
+            setForm({
+                ...form,
+                boxStyles: res.data.data
+            }); 
+        })
+        .catch(err => {
+            console.log(err); 
+        })
+    // this next line eliminates the linter error causes by having an empty dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
     // handling form field logic with a useState hook
     const handleChange = (e) => {
         setForm({
@@ -77,12 +78,14 @@ const BoxCalculator = () => {
         formula = formula.replace(/x8/gi, form.x8) 
         formula = formula.replace(/x9/gi, form.x9) 
         formula = formula.replace(/x10/gi, form.x10)
-
+        
+        // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
+        // eslint-disable-next-line
         const decimal = eval(formula); 
 
         setForm({
             ...form,
-            sqft: decimal
+            sqft: `${decimal.toFixed(4)} sq. ft`
         })   
 
         
@@ -93,9 +96,7 @@ const BoxCalculator = () => {
     const saveBox = () => {
 
     }
-    console.log(form); 
     if(form.boxStyles) {
-        console.log(form.boxStyles)
         return ( 
             <>
                 <form className="boxcalc-wrapper">
@@ -231,6 +232,7 @@ const BoxCalculator = () => {
                         type="text"
                         name="footage"
                         className="boxcalc-field"
+                        readOnly={true}
                         value={form.sqft}
                         />
                     </label>
