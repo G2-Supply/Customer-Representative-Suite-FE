@@ -40,6 +40,7 @@ const BoxCalculator = () => {
                 ...form,
                 boxStyles: res.data.data
             }); 
+
         })
         .catch(err => {
             console.log(err); 
@@ -55,7 +56,7 @@ const BoxCalculator = () => {
     })}
 
     // the function that actually handles the calculation of the square footage
-    const calculateFootage = (e) => {
+    function calculateFootage(e){
         // preventing re-render
         e.preventDefault(); 
         // selecting the Box Style the user has selected
@@ -65,6 +66,7 @@ const BoxCalculator = () => {
         let styleFormulaArr = form.boxStyles.filter(box => box.box_style_name === style)
         let formula = styleFormulaArr[0].box_style_formula;
 
+        // replacing formula placeholders with respective user inputted variables
         formula = formula.replace(/length/gi, form.length)
         formula = formula.replace(/width/gi, form.width)
         formula = formula.replace(/height/gi, form.height) 
@@ -82,6 +84,9 @@ const BoxCalculator = () => {
         // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
         // eslint-disable-next-line
         const decimal = eval(formula); 
+        
+
+        // console.log(formula)
 
         setForm({
             ...form,
@@ -96,6 +101,7 @@ const BoxCalculator = () => {
     const saveBox = () => {
 
     }
+
     if(form.boxStyles) {
         return ( 
             <>
@@ -131,12 +137,12 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>Height:<br/>
-                        <input type="text"
+                        <input
+                        type="text"
                         name="height"
                         onChange={handleChange}
                         value={form.height}
-                        className="boxcalc-field"
-                        />
+                        className="boxcalc-field"/>
                     </label>
                     <label>X1:<br/>
                         <input type="text"
@@ -162,7 +168,7 @@ const BoxCalculator = () => {
                         className="boxcalc-field"
                         />
                     </label>
-                    <label>X4:<br/>
+                    {/* <label>X4:<br/>
                         <input type="text"
                         name="x4"
                         onChange={handleChange}
@@ -217,7 +223,7 @@ const BoxCalculator = () => {
                         value={form.x10}
                         className="boxcalc-field"
                         />
-                    </label>
+                    </label> */}
                     <label>Name Box:<br/>
                         <input type="text"
                         name="name"
@@ -226,7 +232,12 @@ const BoxCalculator = () => {
                         className="boxcalc-field"
                         />
                     </label>
-                    <button className="calculate-box" onClick={calculateFootage} id="sqft">Calculate</button>
+                    <button 
+                        className="calculate-box" 
+                        // onClick={() => calculateFootage(form.length, form.width, form.height, form.x1, form.x2, form.x3, form.x4, form.x5, form.x6, form.x7, form.x8, form.x9, form.x10)} 
+                        onClick={calculateFootage}
+                        id="sqft">Calculate
+                    </button>
                     <label>Square Footage:<br/>
                         <input 
                         type="text"
@@ -245,8 +256,8 @@ const BoxCalculator = () => {
             </>
          );
     } else {
-        return <p></p>
-    }
+        return <p></p> 
+    } 
 }
 
     
