@@ -107,7 +107,7 @@ const BoxCalculator = () => {
             <>
                 <form className="boxcalc-wrapper">
                     <label>Box Style:<br/>
-                        <select type="text"
+                        <select type="number"
                         name="style"
                         multiple={false}
                         onChange={handleChange}
@@ -121,7 +121,7 @@ const BoxCalculator = () => {
                         </select>
                     </label>
                     <label>Length:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="length"
                         onChange={handleChange}
                         value={form.length}
@@ -129,7 +129,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>Width:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="width"
                         onChange={handleChange}
                         value={form.width}
@@ -138,14 +138,14 @@ const BoxCalculator = () => {
                     </label>
                     <label>Height:<br/>
                         <input
-                        type="text"
+                        type="number"
                         name="height"
                         onChange={handleChange}
                         value={form.height}
                         className="boxcalc-field"/>
                     </label>
                     <label>X1:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x1"
                         onChange={handleChange}
                         value={form.x1}
@@ -153,7 +153,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X2:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x2"
                         onChange={handleChange}
                         value={form.x2}
@@ -161,7 +161,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X3:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x3"
                         onChange={handleChange}
                         value={form.x3}
@@ -169,7 +169,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     {/* <label>X4:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x4"
                         onChange={handleChange}
                         value={form.x4}
@@ -177,7 +177,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X5:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x5"
                         onChange={handleChange}
                         value={form.x5}
@@ -185,7 +185,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X6:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x6"
                         onChange={handleChange}
                         value={form.x6}
@@ -193,7 +193,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X7:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x7"
                         onChange={handleChange}
                         value={form.x7}
@@ -201,7 +201,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X8:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x8"
                         onChange={handleChange}
                         value={form.x8}
@@ -209,7 +209,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X9:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x9"
                         onChange={handleChange}
                         value={form.x9}
@@ -217,7 +217,7 @@ const BoxCalculator = () => {
                         />
                     </label>
                     <label>X10:<br/>
-                        <input type="text"
+                        <input type="number"
                         name="x10"
                         onChange={handleChange}
                         value={form.x10}
