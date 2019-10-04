@@ -3,43 +3,23 @@ import React, { useState, useEffect } from 'react';
 // importing axios for http requests
 import axios from 'axios'; 
 
+// Formik/yup (form validation library) import
+import { withFormik, Form, Field } from 'formik'
+import * as yup from 'yup'; 
+
 // styling imports 
 import './BoxCalculator.scss'; 
 
-const BoxCalculator = () => {
+const BoxCalculator = ({ values,  touched, errors }) => {
 
-    // useState hook for form logic
-    const [ form, setForm ] = useState({
-        style: '',
-        length: '',
-        width: '',
-        height: '',
-        x1: '',
-        x2: '', 
-        x3: '', 
-        x4: '', 
-        x5: '', 
-        x6: '', 
-        x7: '', 
-        x8: '', 
-        x9: '', 
-        x10: '',  
-        name: '',
-        sqft: '',
-        boxStyles: '',
-    }); 
-
-    // hook for dynamically rendering dropdown options (box styles) from the DB
-    // const [ boxStyles, setBoxStyles ] = useState()
+    //useState hook to store options we dynamically render in the <select> tag
+    const [ boxStyles, setBoxStyles ] = useState(); 
 
     // pulling the list of possible box formulas from the API on page render, going to save it to an array
     useEffect(() => {
-        axios.get('http://localhost:5000/api/box-styles/')
+        axios.get('http://localhost:5000/api/box-styles')
         .then(res => {
-            setForm({
-                ...form,
-                boxStyles: res.data.data
-            }); 
+            setBoxStyles(res.data.data)
         })
         .catch(err => {
             console.log(err); 
@@ -47,201 +27,199 @@ const BoxCalculator = () => {
     // this next line eliminates the linter error causes by having an empty dependency array
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    // handling form field logic with a useState hook
-    const handleChange = (e) => {
-        setForm({
-        ...form,
-        [e.target.name]: e.target.value,
-    })}
 
-    // the function that actually handles the calculation of the square footage
-    const calculateFootage = (e) => {
-        // preventing re-render
-        e.preventDefault(); 
+    const calculateFootage = () => {
         // selecting the Box Style the user has selected
         const style = document.getElementById('style').value 
 
         // filtering the array to find the box_style_formula based on the 
-        let styleFormulaArr = form.boxStyles.filter(box => box.box_style_name === style)
+        let styleFormulaArr = boxStyles.filter(box => box.box_style_name === style)
         let formula = styleFormulaArr[0].box_style_formula;
 
-        formula = formula.replace(/length/gi, form.length)
-        formula = formula.replace(/width/gi, form.width)
-        formula = formula.replace(/height/gi, form.height) 
-        formula = formula.replace(/x1/gi, form.x1) 
-        formula = formula.replace(/x2/gi, form.x2) 
-        formula = formula.replace(/x3/gi, form.x3) 
-        formula = formula.replace(/x4/gi, form.x4) 
-        formula = formula.replace(/x5/gi, form.x5) 
-        formula = formula.replace(/x6/gi, form.x6) 
-        formula = formula.replace(/x7/gi, form.x7) 
-        formula = formula.replace(/x8/gi, form.x8) 
-        formula = formula.replace(/x9/gi, form.x9) 
-        formula = formula.replace(/x10/gi, form.x10)
+        formula = formula.replace(/length/gi, values.length)
+        formula = formula.replace(/width/gi, values.width)
+        formula = formula.replace(/height/gi, values.height) 
+        formula = formula.replace(/x1/gi, values.x1) 
+        formula = formula.replace(/x2/gi, values.x2) 
+        formula = formula.replace(/x3/gi, values.x3)   
+        formula = formula.replace(/x4/gi, values.x4) 
+        formula = formula.replace(/x5/gi, values.x5) 
+        formula = formula.replace(/x6/gi, values.x6) 
+        formula = formula.replace(/x7/gi, values.x7) 
+        formula = formula.replace(/x8/gi, values.x8) 
+        formula = formula.replace(/x9/gi, values.x9) 
+        formula = formula.replace(/x10/gi, values.x10)
         
         // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
         // eslint-disable-next-line
         const decimal = eval(formula); 
 
-        setForm({
-            ...form,
-            sqft: `${decimal.toFixed(4)} sq. ft`
-        })   
+        // values.sqft = `${decimal.toFixed(4)} sq. ft` 
+        // console.log(values.sqft); 
 
+        document.getElementById('sqft').value = `${decimal.toFixed(4)} sq. ft` 
+        console.log(document.getElementById('sqft').value)
+
+    }
+
+    // // function to POST the new box the the API and save it to the database
+    // function calculateFootage(e) {
+    //     e.preventDefault(); 
+    //     // selecting the Box Style the user has selected
+    //     const style = document.getElementById('style').value 
+
+    //     // filtering the array to find the box_style_formula based on the 
+    //     let styleFormulaArr = boxStyles.filter(box => box.box_style_name === style)
+    //     let formula = styleFormulaArr[0].box_style_formula;
+
+    //     formula = formula.replace(/length/gi, form.length)
+    //     formula = formula.replace(/width/gi, form.width)
+    //     formula = formula.replace(/height/gi, form.height) 
+    //     formula = formula.replace(/x1/gi, form.x1) 
+    //     formula = formula.replace(/x2/gi, form.x2) 
+    //     formula = formula.replace(/x3/gi, form.x3)   
+    //     formula = formula.replace(/x4/gi, form.x4) 
+    //     formula = formula.replace(/x5/gi, form.x5) 
+    //     formula = formula.replace(/x6/gi, form.x6) 
+    //     formula = formula.replace(/x7/gi, form.x7) 
+    //     formula = formula.replace(/x8/gi, form.x8) 
+    //     formula = formula.replace(/x9/gi, form.x9) 
+    //     formula = formula.replace(/x10/gi, form.x10)
         
-           
-    }
+    //     // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
+    //     // eslint-disable-next-line
+    //     const decimal = eval(formula); 
 
-    // function to POST the new box the the API and save it to the database
-    const saveBox = () => {
+    //     setForm({
+    //         ...form,
+    //         sqft: `${decimal.toFixed(4)} sq. ft`
+    //     })   
 
-    }
-    if(form.boxStyles) {
+    // }
+
+
+    if(boxStyles) {
         return ( 
             <>
-                <form className="boxcalc-wrapper">
+                <Form className="boxcalc-wrapper">
                     <label>Box Style:<br/>
-                        <select type="text"
+                        {touched.style && errors.style && <p>{errors.style}</p>}
+                        <select type="number"
                         name="style"
                         multiple={false}
-                        onChange={handleChange}
                         id="style"
-                        value={form.style}
                         className="boxcalc-field"
                         >
-                            {form.boxStyles.map((opt) => {
+                            {boxStyles.map((opt) => {
                                 return (<option key={opt.id}>{opt.box_style_name}</option>)
                             })}
                         </select>
                     </label>
                     <label>Length:<br/>
-                        <input type="text"
+                        {touched.length && errors.length && <p>{errors.length}</p>}
+                        <Field type="number"
                         name="length"
-                        onChange={handleChange}
-                        value={form.length}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>Width:<br/>
-                        <input type="text"
+                        {touched.width && errors.width && <p>{errors.width}</p>}
+                        <Field type="number"
                         name="width"
-                        onChange={handleChange}
-                        value={form.width}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>Height:<br/>
-                        <input type="text"
+                        {touched.height && errors.height && <p>{errors.height}</p>}
+                        <Field type="number"
                         name="height"
-                        onChange={handleChange}
-                        value={form.height}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X1:<br/>
-                        <input type="text"
+                        {touched.x1 && errors.x1 && <p>{errors.x1}</p>}
+                        <Field type="number"
                         name="x1"
-                        onChange={handleChange}
-                        value={form.x1}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X2:<br/>
-                        <input type="text"
+                        {/* {touched.x2 && errors.x2 && <p>{errors.x2}</p>} */}
+                        <Field type="number"
                         name="x2"
-                        onChange={handleChange}
-                        value={form.x2}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X3:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x3"
-                        onChange={handleChange}
-                        value={form.x3}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X4:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x4"
-                        onChange={handleChange}
-                        value={form.x4}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X5:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x5"
-                        onChange={handleChange}
-                        value={form.x5}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X6:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x6"
-                        onChange={handleChange}
-                        value={form.x6}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X7:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x7"
-                        onChange={handleChange}
-                        value={form.x7}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X8:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x8"
-                        onChange={handleChange}
-                        value={form.x8}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X9:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x9"
-                        onChange={handleChange}
-                        value={form.x9}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>X10:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="x10"
-                        onChange={handleChange}
-                        value={form.x10}
                         className="boxcalc-field"
                         />
                     </label>
                     <label>Name Box:<br/>
-                        <input type="text"
+                        <Field type="number"
                         name="name"
-                        onChange={handleChange}
-                        value={form.name}
                         className="boxcalc-field"
                         />
                     </label>
-                    <button className="calculate-box" onClick={calculateFootage} id="sqft">Calculate</button>
+                    <button className="calculate-box" onClick={calculateFootage}>Calculate</button>
                     <label>Square Footage:<br/>
-                        <input 
+                        <Field 
                         type="text"
                         name="footage"
                         className="boxcalc-field"
+                        id="sqft"
                         readOnly={true}
-                        value={form.sqft}
                         />
                     </label>
                     <p className="save-question">Need to save this box?</p>
                     <div className="save-btn-wrapper">
                         <p className="no-thanks">No thanks</p>
-                        <button className="save-btn" onClick={saveBox}>Save</button>
+                        <button className="save-btn">Save</button>
                     </div>
-                </form>
+                </Form>
             </>
          );
     } else {
@@ -249,6 +227,41 @@ const BoxCalculator = () => {
     }
 }
 
+const FormikBoxCalculator = withFormik({
+    mapPropsToValues({ style, length, width, height, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, name, sqft, boxStyles }) {
+        return {
+            style: style || '',
+            length: length || '',
+            width: width || '',
+            height: height || '',
+            x1: x1 || '',
+            x2: x2 || '', 
+            x3: x3 || '', 
+            x4: x4 || '', 
+            x5: x5 || '', 
+            x6: x6 || '', 
+            x7: x7 || '', 
+            x8: x8 || '', 
+            x9: x9 || '', 
+            x10: x10 || '',  
+            name: name || '',
+            sqft: sqft || '',
+            boxStyles: boxStyles || ''
+        }
+    }, 
+
+    // ============= YUP VALIDATION SCHEMA ===============
+    validationSchema: yup.object().shape({
+        style: yup.string().required("Style is required"),
+        length: yup.number().required("Length is required"),
+        width: yup.number().required("Width is required"),
+        height: yup.number().required("Height is required"),
+    }), 
+    // ============== END SCHEMA ==============
+
+
+})(BoxCalculator); 
+
     
  
-export default BoxCalculator;
+export default FormikBoxCalculator;
