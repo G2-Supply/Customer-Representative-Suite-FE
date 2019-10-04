@@ -19,18 +19,19 @@ const BoxCalculator = ({ values,  touched, errors }) => {
     useEffect(() => {
         axios.get('http://localhost:5000/api/box-styles')
         .then(res => {
-            setBoxStyles(res.data.data)
+            setBoxStyles(res.data.data); 
+            console.log(boxStyles); 
         })
         .catch(err => {
             console.log(err); 
-        })
+        }); 
     // this next line eliminates the linter error causes by having an empty dependency array
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const calculateFootage = () => {
         // selecting the Box Style the user has selected
-        const style = document.getElementById('style').value 
+        const style = document.getElementById('style').value; 
 
         // filtering the array to find the box_style_formula based on the 
         let styleFormulaArr = boxStyles.filter(box => box.box_style_name === style)
@@ -254,14 +255,19 @@ const FormikBoxCalculator = withFormik({
     }, 
 
     // ============= YUP VALIDATION SCHEMA ===============
-    validationSchema: yup.object().shape({
-        style: yup.string().required("Style is required"),
-        length: yup.number().required("Length is required"),
-        width: yup.number().required("Width is required"),
-        height: yup.number().required("Height is required"),
-    }), 
+    // validationSchema: function createSchema() {
+    //     return yup.object().shape({
+    //         style: yup.string().required("Style is required"),
+    //         length: yup.number().required("Length is required"),
+    //         width: yup.number().required("Width is required"),
+    //         height: yup.number().required("Height is required"),
+    //     })}, 
+    validationSchema: function createSchema() {
+        for(let value in values) {
+            console.log(value); 
+        }
+    } 
     // ============== END SCHEMA ==============
-
 
 })(BoxCalculator); 
 
