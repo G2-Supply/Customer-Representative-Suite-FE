@@ -19,8 +19,7 @@ const BoxCalculator = ({ values,  touched, errors }) => {
     useEffect(() => {
         axios.get('http://localhost:5000/api/box-styles')
         .then(res => {
-            setBoxStyles(res.data.data); 
-            console.log(boxStyles); 
+            setBoxStyles(res.data.data);
         })
         .catch(err => {
             console.log(err); 
@@ -37,70 +36,38 @@ const BoxCalculator = ({ values,  touched, errors }) => {
         let styleFormulaArr = boxStyles.filter(box => box.box_style_name === style)
         let formula = styleFormulaArr[0].box_style_formula;
 
-        formula = formula.replace(/length/gi, values.length)
-        formula = formula.replace(/width/gi, values.width)
-        formula = formula.replace(/height/gi, values.height) 
-        formula = formula.replace(/x1/gi, values.x1) 
-        formula = formula.replace(/x2/gi, values.x2) 
-        formula = formula.replace(/x3/gi, values.x3)   
-        formula = formula.replace(/x4/gi, values.x4) 
-        formula = formula.replace(/x5/gi, values.x5) 
-        formula = formula.replace(/x6/gi, values.x6) 
-        formula = formula.replace(/x7/gi, values.x7) 
-        formula = formula.replace(/x8/gi, values.x8) 
-        formula = formula.replace(/x9/gi, values.x9) 
-        formula = formula.replace(/x10/gi, values.x10)
+        const attrs = ['length', 'width', 'height', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10']
+        // console.log(values); 
+        for (let i = 0; i < attrs.length; i++) { 
+            if (formula.includes(attrs[i])) {
+                formula = formula.replace(attrs[i], values[attrs[i]])
+                document.getElementsByName(attrs[i]).style.display = 'block'; 
+            }
+        }  
+
+        // formula = formula.replace(/length/gi, values.length)
+        // formula = formula.replace(/width/gi, values.width)
+        // formula = formula.replace(/height/gi, values.height) 
+        // formula = formula.replace(/x1/gi, values.x1) 
+        // formula = formula.replace(/x2/gi, values.x2) 
+        // formula = formula.replace(/x3/gi, values.x3)   
+        // formula = formula.replace(/x4/gi, values.x4) 
+        // formula = formula.replace(/x5/gi, values.x5) 
+        // formula = formula.replace(/x6/gi, values.x6) 
+        // formula = formula.replace(/x7/gi, values.x7) 
+        // formula = formula.replace(/x8/gi, values.x8) 
+        // formula = formula.replace(/x9/gi, values.x9) 
+        // formula = formula.replace(/x10/gi, values.x10)
         
         // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
         // eslint-disable-next-line
         const decimal = eval(formula); 
-        
 
-        // console.log(formula)
-
-        // values.sqft = `${decimal.toFixed(4)} sq. ft` 
-        // console.log(values.sqft); 
 
         document.getElementById('sqft').value = `${decimal.toFixed(4)} sq. ft` 
         console.log(document.getElementById('sqft').value)
 
     }
-
-    // // function to POST the new box the the API and save it to the database
-    // function calculateFootage(e) {
-    //     e.preventDefault(); 
-    //     // selecting the Box Style the user has selected
-    //     const style = document.getElementById('style').value 
-
-    //     // filtering the array to find the box_style_formula based on the 
-    //     let styleFormulaArr = boxStyles.filter(box => box.box_style_name === style)
-    //     let formula = styleFormulaArr[0].box_style_formula;
-
-    //     formula = formula.replace(/length/gi, form.length)
-    //     formula = formula.replace(/width/gi, form.width)
-    //     formula = formula.replace(/height/gi, form.height) 
-    //     formula = formula.replace(/x1/gi, form.x1) 
-    //     formula = formula.replace(/x2/gi, form.x2) 
-    //     formula = formula.replace(/x3/gi, form.x3)   
-    //     formula = formula.replace(/x4/gi, form.x4) 
-    //     formula = formula.replace(/x5/gi, form.x5) 
-    //     formula = formula.replace(/x6/gi, form.x6) 
-    //     formula = formula.replace(/x7/gi, form.x7) 
-    //     formula = formula.replace(/x8/gi, form.x8) 
-    //     formula = formula.replace(/x9/gi, form.x9) 
-    //     formula = formula.replace(/x10/gi, form.x10)
-        
-    //     // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
-    //     // eslint-disable-next-line
-    //     const decimal = eval(formula); 
-
-    //     setForm({
-    //         ...form,
-    //         sqft: `${decimal.toFixed(4)} sq. ft`
-    //     })   
-
-    // }
-
 
     if(boxStyles) {
         return ( 
@@ -255,18 +222,14 @@ const FormikBoxCalculator = withFormik({
     }, 
 
     // ============= YUP VALIDATION SCHEMA ===============
-    // validationSchema: function createSchema() {
-    //     return yup.object().shape({
-    //         style: yup.string().required("Style is required"),
-    //         length: yup.number().required("Length is required"),
-    //         width: yup.number().required("Width is required"),
-    //         height: yup.number().required("Height is required"),
-    //     })}, 
     validationSchema: function createSchema() {
-        for(let value in values) {
-            console.log(value); 
-        }
-    } 
+        return yup.object().shape({
+            style: yup.string().required("Style is required"),
+            length: yup.number().required("Length is required"),
+            width: yup.number().required("Width is required"),
+            height: yup.number().required("Height is required"),
+        })}, 
+
     // ============== END SCHEMA ==============
 
 })(BoxCalculator); 
