@@ -41,23 +41,9 @@ const BoxCalculator = ({ values,  touched, errors }) => {
         for (let i = 0; i < attrs.length; i++) { 
             if (formula.includes(attrs[i])) {
                 formula = formula.replace(attrs[i], values[attrs[i]])
-                document.getElementsByName(attrs[i]).style.display = 'block'; 
             }
         }  
 
-        // formula = formula.replace(/length/gi, values.length)
-        // formula = formula.replace(/width/gi, values.width)
-        // formula = formula.replace(/height/gi, values.height) 
-        // formula = formula.replace(/x1/gi, values.x1) 
-        // formula = formula.replace(/x2/gi, values.x2) 
-        // formula = formula.replace(/x3/gi, values.x3)   
-        // formula = formula.replace(/x4/gi, values.x4) 
-        // formula = formula.replace(/x5/gi, values.x5) 
-        // formula = formula.replace(/x6/gi, values.x6) 
-        // formula = formula.replace(/x7/gi, values.x7) 
-        // formula = formula.replace(/x8/gi, values.x8) 
-        // formula = formula.replace(/x9/gi, values.x9) 
-        // formula = formula.replace(/x10/gi, values.x10)
         
         // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
         // eslint-disable-next-line
@@ -168,7 +154,7 @@ const BoxCalculator = ({ values,  touched, errors }) => {
                         name="x10"
                         className="boxcalc-field"
                         />
-                    </label> */}
+                    </label>
                     <label>Name Box:<br/>
                         <Field type="number"
                         name="name"
