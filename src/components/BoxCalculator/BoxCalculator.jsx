@@ -43,7 +43,6 @@ const BoxCalculator = ({ values,  touched, errors }) => {
             if (formula.includes(attrs[i])) {
                 formula = formula.replace(attrs[i], values[attrs[i]])
                 console.log(attrs[i])
-                document.getElementsByName(attrs[i]).style.display = 'block'; 
             }
         }  
         
@@ -51,7 +50,7 @@ const BoxCalculator = ({ values,  touched, errors }) => {
         // eslint-disable-next-line
         const decimal = eval(formula); 
 
-        document.getElementById('sqft').value = `${decimal.toFixed(4)} sq. ft` 
+        document.getElementById('sqft').value = `${decimal.toFixed(3)} sq. ft` 
     }
 
     if(boxStyles) {
@@ -153,7 +152,7 @@ const BoxCalculator = ({ values,  touched, errors }) => {
                         name="x10"
                         className="boxcalc-field"
                         />
-                    </label> */}
+                    </label>
                     <label>Name Box:<br/>
                         <Field type="number"
                         name="name"
