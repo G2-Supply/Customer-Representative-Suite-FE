@@ -42,7 +42,6 @@ const BoxCalculator = ({ values,  touched, errors }) => {
         for (let i = 0; i < attrs.length; i++) { 
             if (formula.includes(attrs[i])) {
                 formula = formula.replace(attrs[i], values[attrs[i]])
-                console.log(attrs[i])
             }
         }  
         
