@@ -11,6 +11,7 @@ import BoxCalculator from '../BoxCalculator/BoxCalculator';
 import SavedBoxes from '../SavedBoxes/SavedBoxes'; 
 import Products from '../Products/Products'; 
 import VendorList from '../VendorList/VendorList'; 
+import Quoting from '../Quoting/Quoting'; 
 
 const AppMain = () => {
     return ( 
@@ -19,6 +20,7 @@ const AppMain = () => {
             <Route path='/saved-boxes' component={SavedBoxes} />
             <Route path='/products' component={Products} />
             <Route path='/vendor-list' component={VendorList} />
+            <Route path='/quote' component={Quoting} />
         </div>
      );
 }
