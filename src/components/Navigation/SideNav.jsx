@@ -15,7 +15,7 @@ const SideNav = (props) => {
             <p className="signout">Sign Out</p>
             <NavLink className='side-links' to='/box-calculator'>Box Calculator >>
                 <p className="link-desc">
-                    - An ineractive way to determine
+                    - An interactive way to determine
                     the square footage of corrugated
                     boxes for pricing purposes.
                 </p>

@@ -1,31 +1,37 @@
-import React from 'react'; 
-import Email from './smtp'; 
+import React, { useState } from 'react'; 
 
 function Quoting() {
-    console.log(Email); 
-    const sendMail = () => {
-        Email.send({
-            Host : "smtp.elasticemail.com",
-            Username : "elijahmckay10@gmail.com",
-            Password : "25889260-67d6-4d1e-b575-c6601d9e3ce2",
-            To : 'elijahmckay10@gmail.com',
-            From : "elijahmckay10@gmail.com",
-            Subject : "This is the subject",
-            Body : "And this is the body"
-        }).then(
-          message => alert(message)
-        );
 
+    const [ emails, setEmails ] = useState([])
+
+    const vendors = ['test1@gmail.com', 'test2@gmail.com', 'test3@gmail.com']
+
+    const changeHandler = (e) => {
+        setEmails([...emails, e.target.value])
     }
-
-    console.log(sendMail); 
+    console.log(emails); 
+    console.log('RERENDER'); 
     return (
-        <div>
+        <>
             <p>Quoting</p>
-            <textarea>Check</textarea>
-            <button onClick={sendMail}>Test</button>
-        </div>
-    )
+            <form>
+                {vendors.map(ven => (
+                    <label>Email:
+                        <select type="email"
+                        className="boxcalc-field"
+                        onChange={changeHandler}
+                        >   
+                            <option>Select Email</option>
+                            {vendors.map(ven => {
+                                return (<option value={ven}>{ven}</option>)
+                            })}
+                        </select>
+                    </label>
+                ))}
+            </form>
+        </>
+    );
 }
+
 
 export default Quoting;
