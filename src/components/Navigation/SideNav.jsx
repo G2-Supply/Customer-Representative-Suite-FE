@@ -26,6 +26,11 @@ const SideNav = (props) => {
                     easy access.
                 </p>
             </NavLink>
+            <NavLink className='side-links' to='/quote'>Quoting >>
+                <p className='link-desc'>
+                    - Easily send quotes to your choice of vendors.
+                </p>
+            </NavLink>
             <NavLink className='side-links' to='/products'>Products >>
                 <p className="link-desc">
                     - A searchable list of all of the 

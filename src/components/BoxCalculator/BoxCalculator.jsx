@@ -10,6 +10,7 @@ import * as yup from 'yup';
 // styling imports 
 import './BoxCalculator.scss'; 
 
+
 const BoxCalculator = ({ values,  touched, errors }) => {
 
     //useState hook to store options we dynamically render in the <select> tag
@@ -43,16 +44,12 @@ const BoxCalculator = ({ values,  touched, errors }) => {
                 formula = formula.replace(attrs[i], values[attrs[i]])
             }
         }  
-
         
         // disabling the "eval may be harmful" error READ TO UNDERSTAND WHY: https://eslint.org/docs/rules/no-eval
         // eslint-disable-next-line
         const decimal = eval(formula); 
 
-
-        document.getElementById('sqft').value = `${decimal.toFixed(4)} sq. ft` 
-        console.log(document.getElementById('sqft').value)
-
+        document.getElementById('sqft').value = `${decimal.toFixed(3)} sq. ft` 
     }
 
     if(boxStyles) {
@@ -185,7 +182,7 @@ const BoxCalculator = ({ values,  touched, errors }) => {
 }
 
 const FormikBoxCalculator = withFormik({
-    mapPropsToValues({ style, length, width, height, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, name, sqft, boxStyles }) {
+    mapPropsToValues({ style, length, width, height, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, name, sqft }) {
         return {
             style: style || '',
             length: length || '',
@@ -202,8 +199,7 @@ const FormikBoxCalculator = withFormik({
             x9: x9 || '', 
             x10: x10 || '',  
             name: name || '',
-            sqft: sqft || '',
-            boxStyles: boxStyles || ''
+            sqft: sqft || ''
         }
     }, 
 
